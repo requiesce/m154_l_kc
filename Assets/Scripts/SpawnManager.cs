@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class SpawnManager : NetworkBehaviour
+public class SpawnManager : NetworkBehaviour //MonoBehaviour
 {
     public GameObject[] lilyPadObjs = null;
 
-    // Start is called before the first frame update
+    //void Start()  
     public override void OnStartServer()
     {
         InvokeRepeating("SpawnLilyPad", 2f, 5f);
