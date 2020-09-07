@@ -8,7 +8,7 @@ public class PlayerMovement : NetworkBehaviour
     private Rigidbody rbPlayer;
     private Vector3 direction = Vector3.zero;
     public float speed = 10f;
-    public GameObject spawnPoint = null;
+    public GameObject[] spawnPoints = null;
     private Dictionary<Item.VegetableType, int> ItemInventory = new Dictionary<Item.VegetableType, int>();
 
     void Start()
@@ -16,6 +16,7 @@ public class PlayerMovement : NetworkBehaviour
         if (!isLocalPlayer) return;
 
         rbPlayer = GetComponent<Rigidbody>();
+        spawnPoints = GameObject.FindGameObjectsWithTag("Respawn");
 
         foreach (Item.VegetableType item in System.Enum.GetValues(typeof(Item.VegetableType)))
         {
@@ -55,6 +56,8 @@ public class PlayerMovement : NetworkBehaviour
 
     void FixedUpdate()
     {
+        if (!isLocalPlayer) return;
+
         rbPlayer.AddForce(direction * speed, ForceMode.Force);
 
         if (transform.position.z > 40)
@@ -70,7 +73,13 @@ public class PlayerMovement : NetworkBehaviour
 
     private void Respawn()
     {
-        rbPlayer.MovePosition(spawnPoint.transform.position);
+        int index = 0;
+        while(Physics.CheckBox(spawnPoints[index].transform.position, new Vector3(1.5f,1.5f,1.5f)))
+        {
+            index++;
+        }
+        rbPlayer.MovePosition(spawnPoints[index].transform.position);
+
     }
 
 
