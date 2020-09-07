@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1847982278552113085}
   - component: {fileID: 1847982278552113080}
   - component: {fileID: 2978124778345981676}
+  - component: {fileID: 1780254781753285740}
   m_Layer: 0
   m_Name: player
   m_TagString: Player
@@ -126,7 +127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
-  spawnPoint: {fileID: 0}
+  spawnPoints: []
 --- !u!114 &2978124778345981676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -160,3 +161,15 @@ MonoBehaviour:
     i15: 0
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
+--- !u!114 &1780254781753285740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1847982278552113058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70b7230ce57b1ee4f9fea66b1cb7ab9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
