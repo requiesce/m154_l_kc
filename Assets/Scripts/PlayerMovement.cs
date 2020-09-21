@@ -16,12 +16,7 @@ public class PlayerMovement : NetworkBehaviour
 
         rbPlayer = GetComponent<Rigidbody>();
         spawnPoints = GameObject.FindGameObjectsWithTag("Respawn");
-
-
     }
-
-
-
 
 
     void Update()
@@ -32,6 +27,17 @@ public class PlayerMovement : NetworkBehaviour
         float verMove = Input.GetAxis("Vertical");
 
         direction = new Vector3(horMove, 0, verMove);
+    }
+
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawRay(transform.position, direction * 10);
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawRay(transform.position, rbPlayer.velocity * 5);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireCube(transform.position, new Vector3(5, 5, 5));
     }
 
 
@@ -59,12 +65,10 @@ public class PlayerMovement : NetworkBehaviour
         {
             index++;
         }
+        //Debug.Log("index of spawn point: " + index);
         rbPlayer.MovePosition(spawnPoints[index].transform.position);
-
+        rbPlayer.velocity = Vector3.zero;
     }
-
-
-
 
 
     private void OnTriggerExit(Collider other)
@@ -76,7 +80,4 @@ public class PlayerMovement : NetworkBehaviour
             Respawn();
         }
     }
-
-
-
 }
