@@ -23,7 +23,9 @@ public class Bot : MonoBehaviour
     public GameObject target;
     public GameObject[] hidingSpots;
     private Rigidbody rbBody;
-    public BMode mode;
+    public BMode mode; /// <summary>
+    /// 
+    /// </summary>
 
 
 
@@ -39,18 +41,18 @@ public class Bot : MonoBehaviour
         rbBody = target.GetComponent<Rigidbody>();
     }
 
-    void Seek(Vector3 location)
+    public void Seek(Vector3 location)
     {
         agent.SetDestination(location);
     }
 
-    void Flee(Vector3 location)
+    public void Flee(Vector3 location)
     {
         Vector3 fleeVector = location - this.transform.position;
         agent.SetDestination(this.transform.position - fleeVector);
     }
 
-    void Pursue()
+    public void Pursue()
     {
         Vector3 targetDir = target.transform.position - this.transform.position;
 
@@ -68,7 +70,7 @@ public class Bot : MonoBehaviour
         Seek(target.transform.position + target.transform.forward * lookAhead);
     }
 
-    void Evade()
+    public void Evade()
     {
         Vector3 targetDir = target.transform.position - this.transform.position;
         float lookAhead = targetDir.magnitude / (agent.speed + currentSpeed);
@@ -77,7 +79,7 @@ public class Bot : MonoBehaviour
 
 
     Vector3 wanderTarget = Vector3.zero;
-    void Wander()
+    public void Wander()
     {
         float wanderRadius = 10;
         float wanderDistance = 10;
@@ -95,7 +97,7 @@ public class Bot : MonoBehaviour
         Seek(transform.position + targetLocal);//targetWorld
     }
 
-    void Hide()
+    public void Hide()
     {
         float dist = Mathf.Infinity;
         Vector3 chosenSpot = Vector3.zero;
@@ -116,7 +118,7 @@ public class Bot : MonoBehaviour
 
     }
 
-    void CleverHide()
+    public void CleverHide()
     {
         float dist = Mathf.Infinity;
         Vector3 chosenSpot = Vector3.zero;
@@ -148,24 +150,28 @@ public class Bot : MonoBehaviour
 
     }
 
-    bool CanSeeTarget()
+    public bool CanSeeTarget()
     {
         RaycastHit raycastInfo;
-        Vector3 rayToTarget = target.transform.position - this.transform.position;
-        if (Physics.Raycast(this.transform.position, rayToTarget, out raycastInfo))
+        Vector3 targetXZPos = new Vector3(target.transform.position.x, 1.5f, target.transform.position.z);
+        Vector3 thisXZPos = new Vector3(transform.position.x, 1.5f, transform.position.z);
+        Vector3 rayToTarget = targetXZPos - thisXZPos; //target.transform.position - this.transform.position;
+        Debug.DrawRay(thisXZPos, rayToTarget, Color.magenta);
+        if (Physics.Raycast(thisXZPos, rayToTarget, out raycastInfo)) //this.transform.position, rayToTarget, out raycastInfo))
         {
-            if (raycastInfo.transform.gameObject.tag == "Player")
+            if (raycastInfo.transform.gameObject == target.gameObject) //gameObject.tag == "Player")
                 return true;
         }
         return false;
     }
 
-    bool CanTargetSeeMe()
+    public bool CanTargetSeeMe()
     {
         RaycastHit raycastInfo;
-        Vector3 targetFwdWS = target.transform.TransformDirection(target.transform.forward);
-        Debug.DrawRay(target.transform.position, targetFwdWS * 10);
-        Debug.DrawRay(target.transform.position, target.transform.forward * 10, Color.green);
+        //Vector3 targetFwdWS = target.transform.TransformDirection(target.transform.forward);
+        //Debug.DrawRay(target.transform.position, targetFwdWS * 10);
+        //Debug.DrawRay(target.transform.position, target.transform.forward * 10, Color.green);
+        Debug.DrawRay(target.transform.position, target.transform.forward, Color.magenta);
         if (Physics.Raycast(target.transform.position, target.transform.forward, out raycastInfo))
         {
             if (raycastInfo.transform.gameObject == gameObject)
@@ -175,7 +181,7 @@ public class Bot : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    /*void Update()
     {
         //if (CanTargetSeeMe())
         switch (mode)
@@ -196,5 +202,5 @@ public class Bot : MonoBehaviour
                 Wander();
                 break;
         }
-    }
+    }*/
 }
