@@ -203,4 +203,9 @@ public class Bot : MonoBehaviour
                 break;
         }
     }*/
+
+    public void Stop()
+    {
+        agent.isStopped = true;
+    }
 }
